@@ -112,7 +112,7 @@ const Hero = () => {
       {/* Scroll / Latest Work Button */}
       <motion.button
         onClick={() => setAbout(false)}
-        className="absolute pointer-events-auto cursor-pointer left-1/2 -translate-x-1/2 bottom-10 flex items-center justify-center bg-[#4858ec] text-white px-4 py-2 rounded-md border border-transparent hover:bg-transparent hover:text-[#4858ec] transition duration-500 group"
+        className="absolute pointer-events-auto cursor-pointer left-1/2 -translate-x-1/2 bottom-20 xl:bottom-10 flex items-center justify-center bg-[#4858ec] text-white px-4 py-2 rounded-md border border-transparent hover:bg-transparent hover:text-[#4858ec] transition duration-500 group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
