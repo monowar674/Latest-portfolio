@@ -5,11 +5,13 @@ import { NextResponse } from 'next/server';
 
 // Nodemailer ট্রান্সপোর্টার সেটআপ
 const transporter = nodemailer.createTransport({
-  service: 'gmail', 
-  auth: {
-    user: process.env.SMTP_EMAIL_USER, 
-    pass: process.env.SMTP_EMAIL_PASS,
-  },
+    host: process.env.SMTP_HOST,
+    port: 587, // অথবা 465
+    secure: false, // Port 587-এর জন্য false, Port 465-এর জন্য true
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+    }
 });
 
 export async function POST(request) {
