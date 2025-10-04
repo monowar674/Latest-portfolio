@@ -42,12 +42,12 @@ const Hero = () => {
     <div className="relative w-full pointer-events-none min-h-screen flex items-center justify-start  overflow-hidden">
       {/* Hero Background Logo */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <Image src={heroLogo} alt="hero logo" className="opacity-100" />
+        <Image src={heroLogo} alt="hero logo" className="opacity-70" />
       </div>
 
       {/* Hero Content */}
       <motion.div
-        className=" z-10 flex flex-col justify-start  top-1/2 -translate-y-1/6 ml-10 lg:ml-12 xl:ml-20 "
+        className="  flex flex-col justify-start  top-1/2 translate-y-1/10 ml-10 lg:ml-12 xl:ml-20 "
         variants={container}
         initial="hidden"
         animate="show"
@@ -68,7 +68,7 @@ const Hero = () => {
             speed={50}
             repeat={Infinity}
             wrapper="span"
-            className="font-bold text-indigo-600"
+            className="font-bold text-indigo-600 text-[16px]"
           />
         </motion.p>
         <motion.button
