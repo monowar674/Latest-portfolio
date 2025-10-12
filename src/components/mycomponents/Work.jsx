@@ -28,7 +28,7 @@ const Work = () => {
                    
                     <div className="w-full h-auto px-2 lg:px-7 xl:px-10 grid grid-cols-2">
                         <div className="flex items-center  justify-center relative ">
-                            <span className='w-30 xl:w-40 h-[2px] absolute top-1/2 right-0 -translate-y-1/2 hover:after:scale-150 hover:after:cursor-pointer bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-[#333] z-10 after:border-2 after:border-[#f78d60] after:rounded-full after:absolute after:top-0 after:right-0 after:translate-x-1/2 after:-translate-y-1/3 '></span>
+                            <span className='w-25 xl:w-40 h-[2px] absolute top-1/2 right-0 -translate-y-1/2 hover:after:scale-150 hover:after:cursor-pointer bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-[#333] z-10 after:border-2 after:border-[#f78d60] after:rounded-full after:absolute after:top-0 after:right-0 after:translate-x-1/2 after:-translate-y-1/3 '></span>
                             <Link href='#'><Image className='drop-shadow-xl/50 drop-shadow-[#003af7] relative z-20' src={project1} alt='project' /></Link>
 
                         </div>
@@ -65,7 +65,7 @@ const Work = () => {
                         </div>
                         <div className="flex items-center  justify-center relative ">
                             <Link href='#'>
-                                <span className='w-30 xl:w-40 h-[2px] z-2 absolute top-1/2 left-0 -translate-y-1/2 bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-white after:border-2 after:border-[#929000] after:rounded-full after:absolute  after:top-0 after:left-0 after:-translate-x-1/2 after:-translate-y-1/3 hover:after:scale-150'></span>
+                                <span className='w-25 xl:w-40 h-[2px] z-2 absolute top-1/2 left-0 -translate-y-1/2 bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-white after:border-2 after:border-[#929000] after:rounded-full after:absolute  after:top-0 after:left-0 after:-translate-x-1/2 after:-translate-y-1/3 hover:after:scale-150'></span>
                             </Link>
                             <Link href='#'><Image className='relative z-10' src={project2} alt='project' /></Link>
 
@@ -73,7 +73,7 @@ const Work = () => {
                     </div>
                     <div className="w-full h-auto px-2 lg:px-7 xl:px-10 grid grid-cols-2">
                         <div className="flex items-center  justify-center relative ">
-                            <span className='w-30 xl:w-40 h-[2px] absolute top-1/2 right-0 -translate-y-1/2 hover:after:scale-150 hover:after:cursor-pointer bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-[#333] z-10 after:border-2 after:border-[#f78d60] after:rounded-full after:absolute after:top-0 after:right-0 after:translate-x-1/2 after:-translate-y-1/3 '></span>
+                            <span className='w-25 xl:w-40 h-[2px] absolute top-1/2 right-0 -translate-y-1/2 hover:after:scale-150 hover:after:cursor-pointer bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-[#333] z-10 after:border-2 after:border-[#f78d60] after:rounded-full after:absolute after:top-0 after:right-0 after:translate-x-1/2 after:-translate-y-1/3 '></span>
                             <Link href='#'><Image className='drop-shadow-xl/50 drop-shadow-[#003af7] relative z-20' src={project1} alt='project' /></Link>
 
                         </div>
@@ -110,7 +110,7 @@ const Work = () => {
                         </div>
                         <div className="flex items-center  justify-center relative ">
                             <Link href='#'>
-                                <span className='w-30 xl:w-40 h-[2px] z-2 absolute top-1/2 left-0 -translate-y-1/2 bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-white after:border-2 after:border-[#929000] after:rounded-full after:absolute  after:top-0 after:left-0 after:-translate-x-1/2 after:-translate-y-1/3 hover:after:scale-150'></span>
+                                <span className='w-25 xl:w-40 h-[2px] z-2 absolute top-1/2 left-0 -translate-y-1/2 bg-[#f78d60] after:content-[""] after:w-2 after:h-2 after:bg-white after:border-2 after:border-[#929000] after:rounded-full after:absolute  after:top-0 after:left-0 after:-translate-x-1/2 after:-translate-y-1/3 hover:after:scale-150'></span>
                             </Link>
                             <Link href='#'><Image className='relative z-10' src={project2} alt='project' /></Link>
 
