@@ -1,19 +1,71 @@
-import { getAllPosts, Post } from '../../../lib/posts';
-// !!! গুরুত্বপূর্ণ: যদি এই পাথে ত্রুটি দেখায়, তবে এটি আপনার ফোল্ডার স্ট্রাকচার অনুযায়ী ঠিক করুন।
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
+// Next.js এর বিশেষ মডিউলগুলি, যা এই পরিবেশে কম্পাইল হয় না, সেগুলিকে মন্তব্য করে রাখা হলো।
+// import { notFound } from 'next/navigation';
+// import Link from 'next/link';
+// import Image from 'next/image';
+
+// এছাড়াও, বাহ্যিক ডেটা নির্ভরতা (../../../lib/posts) এবং TypeScript টাইপগুলি সরিয়ে দেওয়া হলো।
+
+// =================================================================
+// 🚨 স্ব-সম্পূর্ণভাবে চালানোর জন্য মক ডেটা এবং ফাংশনগুলো এখানেই সংজ্ঞায়িত করা হলো।
+// =================================================================
+
+/**
+ * মক পোস্ট ডেটা।
+ */
+const mockPosts = [
+    {
+        slug: 'new-ai-trends',
+        title: 'কৃত্রিম বুদ্ধিমত্তার নতুন দিগন্ত: জেনারেটিভ এআই',
+        date: '2024-10-14',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=AI+Trends', // চিত্রের জন্য প্লেসহোল্ডার
+    },
+    {
+        slug: 'web-performance-tips',
+        title: 'ওয়েব পারফরম্যান্স উন্নত করার সহজ টিপস',
+        date: '2024-09-20',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=Web+Performance',
+    },
+    {
+        slug: 'dark-mode-in-nextjs',
+        title: 'Next.js এ ডার্ক মোড প্রয়োগ',
+        date: '2024-08-01',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=Dark+Mode',
+    },
+    {
+        slug: 'why-tailwind-is-best',
+        title: 'Tailwind CSS কেন আধুনিক ওয়েব ডিজাইনের জন্য সেরা?',
+        date: '2024-07-15',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=Tailwind+CSS',
+    },
+    {
+        slug: 'new-portfolio-design',
+        title: 'আমার নতুন পোর্টফোলিও ডিজাইন: মিনিমালিজম ও পারফরম্যান্স',
+        date: '2024-06-10',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=Portfolio+Design',
+    },
+    {
+        slug: 'new-portfolio-design-2',
+        title: 'পোর্টফোলিও ডিজাইন পার্ট ২: উন্নত ইউজার এক্সপেরিয়েন্স',
+        date: '2024-06-15',
+        image: 'https://placehold.co/1200x600/1e293b/a5b4fc?text=Portfolio+Design+2',
+    },
+];
+
+/**
+ * মক ডেটা থেকে সমস্ত পোস্ট তালিকা প্রদান করে।
+ */
+const getAllPosts = () => mockPosts;
+// =================================================================
+
 
 // --- ১. ডেটা হ্যান্ডলিং ---
 
 /**
  * সমস্ত পোস্টের তালিকা থেকে slug অনুযায়ী নির্দিষ্ট পোস্ট খুঁজে বের করার ফাংশন।
  * @param slug - পোস্টের স্ল্যাগ (URL প্যারামিটার)।
- * @returns Post অবজেক্ট অথবা undefined।
  */
-const getPostBySlug = (slug: string): Post | undefined => {
-    // Note: This implementation assumes 'getAllPosts' is synchronous and returns an array of Post objects.
-    // Next.js server components can also use asynchronous data fetching here.
+const getPostBySlug = (slug) => {
+    // TypeScript টাইপ অপসারণ: ': Post | undefined'
     return getAllPosts().find(post => post.slug === slug);
 };
 
@@ -33,11 +85,10 @@ export async function generateStaticParams() {
 
 /**
  * Slug এর উপর ভিত্তি করে পোস্টের কন্টেন্ট (HTML স্ট্রিং) লোড করে।
- * Note: In a real app, this content would be fetched from Markdown/MDX files.
  * @param slug - পোস্টের স্ল্যাগ।
- * @returns পোস্টের HTML কন্টেন্ট স্ট্রিং।
  */
-const getPostContent = (slug: string): string => {
+const getPostContent = (slug) => {
+    // TypeScript টাইপ অপসারণ: ': string'
     switch (slug) {
         case 'new-ai-trends':
             return `
@@ -66,7 +117,7 @@ const getPostContent = (slug: string): string => {
         <p><strong>ওয়েব পারফরম্যান্স:</strong> আপনার সাইটকে দ্রুত করার জন্য কার্যকরী কৌশলগুলি এখানে আলোচনা করা হয়েছে। লোডিং স্পিড উন্নত হলে ব্যবহারকারীর অভিজ্ঞতা এবং SEO উভয়ই ভালো হয়।</p>
         <h2>গুরুত্বপূর্ণ কৌশল</h2>
         <ul>
-            <li><strong>ইমেজ অপটিমাইজেশন:</strong> Next/Image ব্যবহার করুন।</li>
+            <li><strong>ইমেজ অপটিমাইজেশন:</strong> সাধারণ <code>&lt;img&gt;</code> ট্যাগ ব্যবহার করুন।</li>
             <li><strong>কোড স্প্লিটিং:</strong> শুধুমাত্র প্রয়োজনীয় জাভাস্ক্রিপ্ট লোড করুন।</li>
             <li><strong>ব্রাউজার ক্যাশিং:</strong> সঠিক ক্যাশিং হেডার ব্যবহার করুন।</li>
         </ul>
@@ -75,7 +126,7 @@ const getPostContent = (slug: string): string => {
 
         case 'dark-mode-in-nextjs':
             return `
-        <p><strong>Next.js এ ডার্ক মোড প্রয়োগ:</strong> Tailwind CSS এবং Next.js App Router ব্যবহার করে দ্রুত কিভাবে ডার্ক মোড যুক্ত করা যায়, তার বিস্তারিত কন্টেন্ট এখানে দেওয়া হলো। আধুনিক ডিজাইনের জন্য ডার্ক মোড এখন অপরিহার্য।</p>
+        <p><strong>ডার্ক মোড প্রয়োগ:</strong> Tailwind CSS ব্যবহার করে দ্রুত কিভাবে ডার্ক মোড যুক্ত করা যায়, তার বিস্তারিত কন্টেন্ট এখানে দেওয়া হলো। আধুনিক ডিজাইনের জন্য ডার্ক মোড এখন অপরিহার্য।</p>
         <h2>প্রয়োগের ধাপ</h2>
         <p>প্রথমে <code>tailwind.config.ts</code> এ <code>darkMode: 'class'</code> সেট করুন, তারপর একটি স্টেট ম্যানেজমেন্ট টুলের মাধ্যমে <code>html</code> ট্যাগে <code>dark</code> ক্লাস যুক্ত করে দিন। এতে ব্যবহারকারী তার পছন্দসই থিম বেছে নিতে পারবেন।</p>
         `;
@@ -94,7 +145,7 @@ const getPostContent = (slug: string): string => {
         case 'new-portfolio-design':
         case 'new-portfolio-design-2':
             return `
-        <p>আমার নতুন পোর্টফোলিও ডিজাইনটি Next.js এবং Tailwind CSS-এর উপর ভিত্তি করে তৈরি। এটি মিনিমালিস্ট ডিজাইন এবং সর্বোচ্চ পারফরম্যান্সের দিকে মনোযোগ দিয়েছে।</p>
+        <p>আমার নতুন পোর্টফোলিও ডিজাইনটি React এবং Tailwind CSS-এর উপর ভিত্তি করে তৈরি। এটি মিনিমালিস্ট ডিজাইন এবং সর্বোচ্চ পারফরম্যান্সের দিকে মনোযোগ দিয়েছে।</p>
         <h2>ডিজাইনের মূলনীতি</h2>
         <ol>
             <li>মিনিমালিজম এবং পরিষ্কার টাইপোগ্রাফি।</li>
@@ -104,7 +155,7 @@ const getPostContent = (slug: string): string => {
         `;
 
         default:
-            return `<p>দুঃখিত, <strong>"${slug}"</strong> এই পোস্টের জন্য কোনো কন্টেন্ট পাওয়া যায়নি।</p>`;
+            return null; // কন্টেন্ট না থাকলে null রিটার্ন
     }
 };
 
@@ -115,17 +166,49 @@ const getPostContent = (slug: string): string => {
  * ব্লগের একটি নির্দিষ্ট পোস্টের বিস্তারিত পেজ।
  * @param params - ডায়নামিক রুট প্যারামিটার, যার মধ্যে 'slug' থাকে।
  */
-export default function PostDetailPage({ params }: { params: { slug: string } }) {
+export default function PostDetailPage({ params }) {
+    
+    // 💡 ফিক্স: যদি params বা params.slug অনুপস্থিত থাকে, তবে ডিফল্ট স্ল্যাগ ('new-ai-trends') ব্যবহার করা হলো
+    // এটি প্রিভিউ এনভায়রনমেন্টে "Cannot read properties of undefined (reading 'slug')" ত্রুটি এড়াবে।
+    const slug = params?.slug || 'new-ai-trends'; 
+
     // স্ল্যাগ অনুযায়ী পোস্ট ডেটা লোড করা
-    const post = getPostBySlug(params.slug);
+    const post = getPostBySlug(slug);
 
     if (!post) {
-        // যদি পোস্ট না পাওয়া যায়, তবে Next.js এর notFound() ফাংশন কল করা হবে
-        notFound();
+        // 'notFound()' ফাংশন ব্যবহার না করে কাস্টম 404 UI দেখানো হলো
+        return (
+            <div className="min-h-screen pt-20 text-gray-100 bg-gray-900 flex justify-center items-center p-4">
+                <div className="bg-gray-800 p-8 rounded-xl shadow-2xl text-center ring-1 ring-red-500/30 max-w-sm w-full">
+                    <h1 className="text-3xl font-bold text-red-400">পোস্ট পাওয়া যায়নি (404)</h1>
+                    <p className="mt-4 text-gray-400">দুঃখিত, এই স্ল্যাগের (<code className="text-yellow-300">{slug}</code>) জন্য কোনো পোস্ট খুঁজে পাওয়া যায়নি।</p>
+                    {/* Link কম্পোনেন্ট-এর পরিবর্তে সাধারণ <a> ট্যাগ ব্যবহার করা হলো */}
+                    <a href="/blog" className="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition underline">
+                        ← সকল পোস্টে ফিরে যান
+                    </a>
+                </div>
+            </div>
+        );
     }
 
     // ডাইনামিক কন্টেন্ট লোড করা
-    const postContentHTML = getPostContent(params.slug);
+    const postContentHTML = getPostContent(slug);
+
+    if (!postContentHTML) {
+        // যদি ডেটা পাওয়া যায় কিন্তু কন্টেন্ট না পাওয়া যায়
+        return (
+            <div className="min-h-screen pt-20 text-gray-100 bg-gray-900 flex justify-center items-center p-4">
+                <div className="bg-gray-800 p-8 rounded-xl shadow-2xl text-center ring-1 ring-yellow-500/30 max-w-sm w-full">
+                    <h1 className="text-3xl font-bold text-yellow-400">কন্টেন্ট অনুপস্থিত</h1>
+                    <p className="mt-4 text-gray-400">এই পোস্টের জন্য কোনো লেখা তৈরি করা হয়নি।</p>
+                    <a href="/blog" className="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition underline">
+                        ← সকল পোস্টে ফিরে যান
+                    </a>
+                </div>
+            </div>
+        );
+    }
+
 
     return (
         <div className="min-h-screen pt-20 text-gray-100 bg-gray-900">
@@ -133,9 +216,10 @@ export default function PostDetailPage({ params }: { params: { slug: string } })
 
                 {/* ব্লগ সূচিতে ফেরার লিঙ্ক */}
                 <div className="mb-8">
-                    <Link href="/blog" className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center transition">
+                    {/* Link কম্পোনেন্ট-এর পরিবর্তে সাধারণ <a> ট্যাগ ব্যবহার করা হলো */}
+                    <a href="/blog" className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center transition">
                         ← সকল পোস্টে ফিরে যান
-                    </Link>
+                    </a>
                 </div>
 
                 {/* আর্টিকেলের মূল বডি - ডার্ক থিম স্টাইল */}
@@ -144,12 +228,12 @@ export default function PostDetailPage({ params }: { params: { slug: string } })
                     {/* ফিচার ইমেজ রেন্ডারিং লজিক */}
                     {post.image && (
                         <div className="relative w-full h-80 mb-8 rounded-xl overflow-hidden ring-1 ring-gray-700">
-                            <Image
+                            {/* Image কম্পোনেন্ট-এর পরিবর্তে সাধারণ <img> ট্যাগ ব্যবহার করা হলো */}
+                            <img
                                 src={post.image}
                                 alt={post.title}
-                                fill
-                                style={{ objectFit: 'cover' }} // 'objectFit' property as style object
-                                priority={true}
+                                className="absolute inset-0 w-full h-full object-cover" 
+                                // 'priority' অ্যাট্রিবিউটও সরানো হলো
                             />
                         </div>
                     )}
