@@ -120,7 +120,7 @@ export default function Home() {
     }, 300);
 
     return () => clearInterval(checkMatter);
-  }, []);
+  }, [wishMe]);
 
   return (
     <>
