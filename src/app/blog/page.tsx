@@ -38,7 +38,7 @@ export default function BlogHomePage() {
         
         {/* ব্লগের মূল শিরোনাম (বড় এবং কেন্দ্রAligned) */}
         <h1 className="text-4xl font-extrabold text-white text-center mb-4">
-          Monowar's Blog 💡
+          Monowar`s Blog 💡
         </h1>
         <p className="text-xl text-gray-400 text-center mb-12">
           কোডিং, ডিজাইন এবং প্রযুক্তির উপর আমার সর্বশেষ লেখা।
