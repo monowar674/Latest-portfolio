@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react"; // ✅ useCallback ইমপোর্ট করা হয়েছে
 import Script from "next/script";
 import Hero from "@/components/mycomponents/Hero";
 import Work from "@/components/mycomponents/Work";
@@ -11,30 +11,46 @@ import { Navigation } from "./navigation";
 export default function Home() {
   const wrapperRef = useRef(null);
 
-  // 🎤 Speech function
-  const speak = (text) => {
+  // 🎤 Speech function - useCallback ব্যবহার করে স্থিতিশীল করা হলো
+  const speak = useCallback((text) => {
     const utter = new SpeechSynthesisUtterance(text);
     utter.rate = 1;
     utter.pitch = 1;
     utter.volume = 1;
-    utter.lang = "en-GB";
+    utter.lang = "en-GB"; // ইংরেজি ভয়েস প্রিসেট
     window.speechSynthesis.speak(utter);
-  };
+  }, []); // নির্ভরতা অ্যারে খালি
 
-  const wishMe = () => {
+  // wishMe function - useCallback এবং speak dependency ব্যবহার করা হলো
+  const wishMe = useCallback(() => {
     const hours = new Date().getHours();
-    if (hours < 12) speak("Good Morning Sir, Welcome to my Portfolio");
-    else if (hours < 16) speak("Good Afternoon Sir, Welcome to my Portfolio");
-    else speak("Good Evening Sir, Welcome to my Portfolio");
-  };
+    
+    let greeting;
+    if (hours >= 5 && hours < 12) {
+      greeting = "Good Morning Sir, Welcome to my Portfolio"; // সকাল ৫টা থেকে দুপুর ১২টা
+    } else if (hours >= 12 && hours < 17) {
+      greeting = "Good Afternoon Sir, Welcome to my Portfolio"; // দুপুর ১২টা থেকে বিকাল ৫টা
+      // যদি আপনার বর্তমান সময় দুপুর ২টা হয়, এটি এই কন্ডিশনটি চালাবে।
+    } else if (hours >= 17 && hours < 21) {
+      greeting = "Good Evening Sir, Welcome to my Portfolio"; // বিকাল ৫টা থেকে রাত ৯টা
+    } else {
+      greeting = "Hello Sir, Welcome to my Portfolio"; // বাকি সময় (রাত ৯টা থেকে সকাল ৫টা)
+    }
+
+    speak(greeting);
+    
+  }, [speak]); // wishMe, speak এর ওপর নির্ভরশীল
 
   // Matter.js setup
   const runMatter = () => {
-    if (!wrapperRef.current || !window.Matter) return;
+    // ✅ Type/Runtime Safety Check: window.Matter এর অস্তিত্ব নিশ্চিত করা হয়েছে
+    if (!wrapperRef.current || typeof window.Matter === 'undefined') return;
 
-    const { Engine, Events, Runner, Render, World, Body, Common, Bodies, Mouse } = window.Matter;
-    window.Matter.use("matter-attractors");
-    window.Matter.use("matter-wrap");
+    // Matter.js-কে local variable এ রাখা হয়েছে
+    const Matter = window.Matter;
+    const { Engine, Events, Runner, Render, World, Body, Common, Bodies, Mouse } = Matter;
+    Matter.use("matter-attractors");
+    Matter.use("matter-wrap");
 
     const engine = Engine.create();
     engine.world.gravity.x = 0;
@@ -109,18 +125,19 @@ export default function Home() {
   };
 
   useEffect(() => {
-    wishMe();
+    wishMe(); // wishMe এখন স্থিতিশীল
 
     // Wait until Matter.js loads
     const checkMatter = setInterval(() => {
-      if (window.Matter) {
+      // ✅ Matter.js এর অস্তিত্ব নিশ্চিত করে runMatter() কল করা হয়েছে
+      if (typeof window.Matter !== 'undefined') {
         clearInterval(checkMatter);
         runMatter();
       }
     }, 300);
 
     return () => clearInterval(checkMatter);
-  }, [wishMe]);
+  }, [wishMe]); // ✅ 'wishMe' এখন স্থিতিশীল নির্ভরতা
 
   return (
     <>
