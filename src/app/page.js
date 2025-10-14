@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Script from "next/script";
 import Hero from "@/components/mycomponents/Hero";
 import Work from "@/components/mycomponents/Work";
@@ -11,30 +11,43 @@ import { Navigation } from "./navigation";
 export default function Home() {
   const wrapperRef = useRef(null);
 
-  // 🎤 Speech function
-  const speak = (text) => {
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 1;
-    utter.pitch = 1;
-    utter.volume = 1;
-    utter.lang = "en-GB";
-    window.speechSynthesis.speak(utter);
-  };
+  // 🎤 Speech function - useCallback ব্যবহার করে স্থিতিশীল করা হয়েছে
+  const speak = useCallback((text) => {
+    // ⚠️ Safety Check: window.speechSynthesis চেক করা হয়েছে
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 1;
+      utter.pitch = 1;
+      utter.volume = 1;
+      utter.lang = "en-GB";
+      window.speechSynthesis.speak(utter);
+    }
+  }, []); 
 
-  const wishMe = () => {
+  // wishMe function - useCallback এবং speak dependency ব্যবহার করে স্থিতিশীল করা হয়েছে
+  const wishMe = useCallback(() => {
     const hours = new Date().getHours();
-    if (hours < 12) speak("Good Morning Sir, Welcome to my Portfolio");
-    else if (hours < 16) speak("Good Afternoon Sir, Welcome to my Portfolio");
-    else speak("Good Evening Sir, Welcome to my Portfolio");
-  };
+    let greeting;
+    if (hours >= 5 && hours < 12) {
+      greeting = "Good Morning Sir, Welcome to my Portfolio";
+    } else if (hours >= 12 && hours < 17) {
+      greeting = "Good Afternoon Sir, Welcome to my Portfolio";
+    } else if (hours >= 17 && hours < 21) {
+      greeting = "Good Evening Sir, Welcome to my Portfolio";
+    } else {
+      greeting = "Hello Sir, Welcome to my Portfolio";
+    }
+    speak(greeting);
+  }, [speak]); // ✅ 'speak' কে নির্ভরতা হিসেবে যোগ করা হয়েছে
 
-  // Matter.js setup
+  // Matter.js setup logic (without Matter.use calls)
   const runMatter = () => {
-    if (!wrapperRef.current || !window.Matter) return;
+    // ✅ Type/Runtime Safety Check: window.Matter এর অস্তিত্ব নিশ্চিত করা হয়েছে
+    if (!wrapperRef.current || typeof window.Matter === 'undefined') return;
 
-    const { Engine, Events, Runner, Render, World, Body, Common, Bodies, Mouse } = window.Matter;
-    window.Matter.use("matter-attractors");
-    window.Matter.use("matter-wrap");
+    // Matter.js-কে local variable এ রাখা হয়েছে
+    const Matter = window.Matter;
+    const { Engine, Events, Runner, Render, World, Body, Common, Bodies, Mouse } = Matter;
 
     const engine = Engine.create();
     engine.world.gravity.x = 0;
@@ -58,6 +71,7 @@ export default function Home() {
         isStatic: true,
         render: { fillStyle: "#333", strokeStyle: "#fad691", lineWidth: 0 },
         plugin: {
+          // Attractor logic is inside the plugin definition, which is fine
           attractors: [
             (bodyA, bodyB) => ({
               x: (bodyA.position.x - bodyB.position.x) * 1e-6,
@@ -108,19 +122,27 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   };
 
+  // ✅ Hooks are initialized here
   useEffect(() => {
     wishMe();
 
     // Wait until Matter.js loads
     const checkMatter = setInterval(() => {
-      if (window.Matter) {
+      if (typeof window.Matter !== 'undefined') {
         clearInterval(checkMatter);
+        
+        // 🚨 Failsafe for Hook Error: Call .use() after loading is confirmed
+        if (window.Matter.use) {
+            window.Matter.use("matter-attractors");
+            window.Matter.use("matter-wrap");
+        }
+        
         runMatter();
       }
     }, 300);
 
     return () => clearInterval(checkMatter);
-  }, []);
+  }, [wishMe]); // ✅ 'wishMe' এখন স্থিতিশীল নির্ভরতা
 
   return (
     <>

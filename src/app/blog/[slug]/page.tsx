@@ -2,21 +2,27 @@ import { getAllPosts, Post } from '../../../lib/posts';
 // !!! গুরুত্বপূর্ণ: যদি এই পাথে ত্রুটি দেখায়, তবে এটি আপনার ফোল্ডার স্ট্রাকচার অনুযায়ী ঠিক করুন।
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image'; // ✅ Image কম্পোনেন্ট ইম্পোর্ট করা হলো
+import Image from 'next/image';
 
 // --- ১. ডেটা হ্যান্ডলিং ---
 
-// slug অনুযায়ী নির্দিষ্ট পোস্ট খুঁজে বের করার ফাংশন
+/**
+ * সমস্ত পোস্টের তালিকা থেকে slug অনুযায়ী নির্দিষ্ট পোস্ট খুঁজে বের করার ফাংশন।
+ * @param slug - পোস্টের স্ল্যাগ (URL প্যারামিটার)।
+ * @returns Post অবজেক্ট অথবা undefined।
+ */
 const getPostBySlug = (slug: string): Post | undefined => {
-    // ধরে নেওয়া হচ্ছে getAllPosts() এবং Post টাইপটি '../../../lib/posts' থেকে সঠিকভাবে ইমপোর্ট করা হয়েছে
-    // Next.js সার্ভার কম্পোনেন্টের জন্য এটি কার্যকর।
+    // Note: This implementation assumes 'getAllPosts' is synchronous and returns an array of Post objects.
+    // Next.js server components can also use asynchronous data fetching here.
     return getAllPosts().find(post => post.slug === slug);
 };
 
 // --- ২. স্ট্যাটিক প্যারামিটার জেনারেশন (Next.js এর জন্য গুরুত্বপূর্ণ) ---
 
+/**
+ * Next.js কে বলে দেয় বিল্ড টাইমে কোন কোন slug এর জন্য স্ট্যাটিক পেজ তৈরি করতে হবে।
+ */
 export async function generateStaticParams() {
-    // এটি বিল্ড টাইমে Next.js কে বলে দেবে কোন কোন slug এর জন্য স্ট্যাটিক পেজ তৈরি করতে হবে
     const posts = getAllPosts();
     return posts.map((post) => ({
         slug: post.slug,
@@ -25,10 +31,14 @@ export async function generateStaticParams() {
 
 // --- ৩. ডাইনামিক কন্টেন্ট লোডার ফাংশন (মক ডেটা) ---
 
-// Slug এর উপর ভিত্তি করে পোস্টের কন্টেন্ট (HTML স্ট্রিং) লোড করে
+/**
+ * Slug এর উপর ভিত্তি করে পোস্টের কন্টেন্ট (HTML স্ট্রিং) লোড করে।
+ * Note: In a real app, this content would be fetched from Markdown/MDX files.
+ * @param slug - পোস্টের স্ল্যাগ।
+ * @returns পোস্টের HTML কন্টেন্ট স্ট্রিং।
+ */
 const getPostContent = (slug: string): string => {
     switch (slug) {
-        // ✅ 'new-ai-trends' কন্টেন্টটিকে বিশেষভাবে অনেক বেশি বিস্তারিত করা হয়েছে
         case 'new-ai-trends':
             return `
         <p class="lead"><strong>কৃত্রিম বুদ্ধিমত্তার নতুন দিগন্ত: জেনারেটিভ এআই এবং মাল্টিমোডাল মডেলের যুগান্তকারী প্রভাব</strong></p>
@@ -75,9 +85,9 @@ const getPostContent = (slug: string): string => {
         <p><strong>Tailwind CSS কেন সেরা?</strong> Tailwind CSS একটি ইউটিলিটি-ফার্স্ট CSS ফ্রেমওয়ার্ক যা আপনাকে সরাসরি আপনার HTML এ কাস্টম ডিজাইন তৈরি করতে সাহায্য করে।</p>
         <h2>সুবিধাসমূহ</h2>
         <ul>
-          <li><strong>দ্রুত উন্নয়ন:</strong> কাস্টম CSS লিখতে হয় না।</li>
-          <li><strong>স্বচ্ছতা:</strong> প্রতিটি ক্লাস কী করে তা সহজেই বোঝা যায়।</li>
-          <li><strong>স্কেলেবিলিটি:</strong> বড় প্রজেক্টের জন্য CSS ফাইলগুলো ছোট রাখে।</li>
+            <li><strong>দ্রুত উন্নয়ন:</strong> কাস্টম CSS লিখতে হয় না।</li>
+            <li><strong>স্বচ্ছতা:</strong> প্রতিটি ক্লাস কী করে তা সহজেই বোঝা যায়।</li>
+            <li><strong>স্কেলেবিলিটি:</strong> বড় প্রজেক্টের জন্য CSS ফাইলগুলো ছোট রাখে।</li>
         </ul>
         `;
 
@@ -87,9 +97,9 @@ const getPostContent = (slug: string): string => {
         <p>আমার নতুন পোর্টফোলিও ডিজাইনটি Next.js এবং Tailwind CSS-এর উপর ভিত্তি করে তৈরি। এটি মিনিমালিস্ট ডিজাইন এবং সর্বোচ্চ পারফরম্যান্সের দিকে মনোযোগ দিয়েছে।</p>
         <h2>ডিজাইনের মূলনীতি</h2>
         <ol>
-          <li>মিনিমালিজম এবং পরিষ্কার টাইপোগ্রাফি।</li>
-          <li>মোবাইল-প্রথম এবং দ্রুত লোডিং।</li>
-          <li>ডাইনামিক থিমিং (ডার্ক মোড) এর জন্য সাপোর্ট।</li>
+            <li>মিনিমালিজম এবং পরিষ্কার টাইপোগ্রাফি।</li>
+            <li>মোবাইল-প্রথম এবং দ্রুত লোডিং।</li>
+            <li>ডাইনামিক থিমিং (ডার্ক মোড) এর জন্য সাপোর্ট।</li>
         </ol>
         `;
 
@@ -101,22 +111,27 @@ const getPostContent = (slug: string): string => {
 
 // --- ৪. পেজ কম্পোনেন্ট ---
 
-// টাইপ এরর ফিক্স: এখানে { params: { slug: string } } টাইপটি সরাসরি ব্যবহার করা হয়েছে
+/**
+ * ব্লগের একটি নির্দিষ্ট পোস্টের বিস্তারিত পেজ।
+ * @param params - ডায়নামিক রুট প্যারামিটার, যার মধ্যে 'slug' থাকে।
+ */
 export default function PostDetailPage({ params }: { params: { slug: string } }) {
+    // স্ল্যাগ অনুযায়ী পোস্ট ডেটা লোড করা
     const post = getPostBySlug(params.slug);
 
     if (!post) {
+        // যদি পোস্ট না পাওয়া যায়, তবে Next.js এর notFound() ফাংশন কল করা হবে
         notFound();
     }
 
-    // ডাইনামিক কন্টেন্ট লোড করা হলো
+    // ডাইনামিক কন্টেন্ট লোড করা
     const postContentHTML = getPostContent(params.slug);
 
     return (
         <div className="min-h-screen pt-20 text-gray-100 bg-gray-900">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-                {/* হোমপেজে ফেরার লিঙ্ক */}
+                {/* ব্লগ সূচিতে ফেরার লিঙ্ক */}
                 <div className="mb-8">
                     <Link href="/blog" className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center transition">
                         ← সকল পোস্টে ফিরে যান
@@ -126,14 +141,14 @@ export default function PostDetailPage({ params }: { params: { slug: string } })
                 {/* আর্টিকেলের মূল বডি - ডার্ক থিম স্টাইল */}
                 <article className="bg-gray-800 p-8 md:p-12 rounded-xl shadow-2xl ring-1 ring-indigo-500/30">
 
-                    {/* ✅ ফিচার ইমেজ রেন্ডারিং লজিক */}
+                    {/* ফিচার ইমেজ রেন্ডারিং লজিক */}
                     {post.image && (
                         <div className="relative w-full h-80 mb-8 rounded-xl overflow-hidden ring-1 ring-gray-700">
                             <Image
                                 src={post.image}
                                 alt={post.title}
                                 fill
-                                objectFit="cover"
+                                style={{ objectFit: 'cover' }} // 'objectFit' property as style object
                                 priority={true}
                             />
                         </div>
@@ -143,20 +158,21 @@ export default function PostDetailPage({ params }: { params: { slug: string } })
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 leading-tight">
                         {post.title}
                     </h1>
+                    
                     {/* তারিখ */}
                     <p className="text-gray-500 text-sm mb-8 border-b border-gray-700 pb-4">
                         {new Date(post.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </p>
 
                     {/* কন্টেন্ট এরিয়া */}
+                    {/* prose-invert ensures content within this div has good contrast against the dark background */}
                     <div className="prose prose-lg prose-invert max-w-none text-gray-300">
-                        {/* ডাইনামিক কন্টেন্ট রেন্ডার করা হলো */}
+                        {/* ডাইনামিক HTML কন্টেন্ট রেন্ডার করা হলো */}
                         <div dangerouslySetInnerHTML={{ __html: postContentHTML }} />
                     </div>
 
                 </article>
             </main>
-
         </div>
     );
 }
