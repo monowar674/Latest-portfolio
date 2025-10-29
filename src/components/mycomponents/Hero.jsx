@@ -14,11 +14,11 @@ import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 
 const socialIcons = [
-  { Icon: FaFacebookSquare, url: "https://facebook.com/yourpage" },
-  { Icon: AiFillInstagram, url: "https://instagram.com/yourpage" },
-  { Icon: FaSquareWhatsapp, url: "https://wa.me/8801xxxxxxxxx" },
-  { Icon: MdMarkEmailUnread, url: "mailto:someone@example.com" },
-  { Icon: FaLinkedin, url: "https://linkedin.com/in/yourprofile" },
+  { Icon: FaFacebookSquare, url: "https://facebook.com/mst.jara.9847 " },
+  { Icon: AiFillInstagram, url: "https://instagram.com/md.monowar.090909" },
+  { Icon: FaSquareWhatsapp, url: "https://wa.me/8801408700142" },
+  { Icon: MdMarkEmailUnread, url: "mailto:monowarhossain2155@gmail.com" },
+  { Icon: FaLinkedin, url: "https://www.linkedin.com/in/monowar-hossain-283b65374 " },
 ];
 
 const Hero = () => {
@@ -40,12 +40,12 @@ const Hero = () => {
 
   return (
     <div className="relative w-full pointer-events-none min-h-screen flex items-center justify-start  overflow-hidden">
-      {/* Hero Background Logo */}
+      
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <Image src={heroLogo} alt="hero logo" className="opacity-70" />
       </div>
 
-      {/* Hero Content */}
+     
       <motion.div
         className="  flex flex-col justify-start  top-1/2 translate-y-1/10 ml-10 lg:ml-12 xl:ml-20 "
         variants={container}
@@ -81,7 +81,7 @@ const Hero = () => {
         </motion.button>
       </motion.div>
 
-      {/* Social Icons */}
+    
       <motion.ul
         className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-4"
         variants={container}
@@ -97,7 +97,6 @@ const Hero = () => {
         ))}
       </motion.ul>
 
-      {/* About Overlay */}
       {about && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -109,7 +108,6 @@ const Hero = () => {
         </motion.div>
       )}
 
-      {/* Scroll / Latest Work Button */}
       <motion.button
         onClick={() => setAbout(false)}
         className="absolute pointer-events-auto cursor-pointer left-1/2 -translate-x-1/2 bottom-20 xl:bottom-10 flex items-center justify-center bg-[#4858ec] text-white px-4 py-2 rounded-md border border-transparent hover:bg-transparent hover:text-[#4858ec] transition duration-500 group"

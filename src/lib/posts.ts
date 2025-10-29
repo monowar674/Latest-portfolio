@@ -1,11 +1,5 @@
-// lib/posts.ts
 
-// ১. image1 ইম্পোর্ট করুন। পাথ আপনার প্রজেক্টের রুট সাপেক্ষে ঠিক করে নিন।
 import image1 from '../Photos/bg.jpg';
-// Next.js Image-এর জন্য 'Url' ইম্পোর্টের প্রয়োজন নেই।
-
-// image1 এখন একটি JavaScript Object, তাই এর টাইপ হবে any বা StaticImageData
-// যদিও আমরা এটিকে একটি ভেরিয়েবলে রাখব।
 
 export type Post = {
     id: number;
@@ -13,7 +7,6 @@ export type Post = {
     slug: string;
     excerpt: string;
     date: string;
-    // ইমেজ পাথ/ইউআরএল অথবা ইমেজ অবজেক্ট স্টোর করার জন্য টাইপ 'any' বা 'string' ব্যবহার করুন
     image: any;
 };
 
@@ -30,11 +23,11 @@ export const posts: Post[] = [
     { id: 3, title: "আমার নতুন পোর্টফোলিও ডিজাইন", slug: "new-portfolio-design", excerpt: "পোর্টফোলিওটি ডিজাইন করার পেছনে কোন চিন্তাগুলো কাজ করেছে, তা দেখুন।", date: "2025-10-08", image: null },
     { id: 4, title: "আমার নতুন পোর্টফোলিও ডিজাইন 2", slug: "new-portfolio-design-2", excerpt: "পোর্টফোলিওটি ডিজাইন করার পেছনে কোন চিন্তাগুলো কাজ করেছে, তা দেখুন।", date: "2025-10-12", image: null },
     { 
-    id: 6, // আইডি যেন ইউনিক হয়
+    id: 6,
     title: "কৃত্রিম বুদ্ধিমত্তার নতুন দিগন্ত", 
-    slug: "new-ai-trends", // এটিই URL এ ব্যবহৃত হবে
+    slug: "new-ai-trends", 
     excerpt: "জেনারেটিভ AI এবং মাল্টিমোডাল এআই-এর সর্বশেষ অগ্রগতি নিয়ে আলোচনা।", 
-    date: "2025-10-18", // সবচেয়ে নতুন তারিখ দিন
+    date: "2025-10-18",
     image: null 
 },
 ];

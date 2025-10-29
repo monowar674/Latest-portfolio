@@ -1,25 +1,24 @@
 import Link from 'next/link';
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa'; // সোশ্যাল আইকনের জন্য react-icons ব্যবহার করা হয়েছে
+import flogo from "../../../public/hero-logo.png"
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import Image from 'next/image';
 
-// আপনি আপনার প্রয়োজন অনুযায়ী আইকন লাইব্রেরি ইনস্টল করে নিতে পারেন:
-// npm install react-icons
 
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white mt-12">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* উপরের সেকশন: লোগো, নেভিগেশন লিংক এবং সোশ্যাল মিডিয়া */}
+        <Image src={flogo} alt={flogo} className='w-30 h-30'/>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-8">
-          
-          {/* কোম্পানি বা লোগো সেকশন */}
+
           <div>
             <p className="text-sm text-gray-400">
               "I am Monowar Hosaain, an experienced Web Developer. My primary goal is to create user-friendly and effective websites using modern technology and coding expertise. I am eager to take on new challenges and transform web solutions into reality."
             </p>
           </div>
 
-          {/* নেভিগেশন কলাম 1 */}
+
           <div>
             <h4 className="text-lg font-semibold mb-4">Servises</h4>
             <ul className="space-y-2">
@@ -35,36 +34,36 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* নেভিগেশন কলাম 2 */}
+
           <div>
             <h4 className="text-lg font-semibold mb-4">Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">About Me</a>
+                <Link href="/about" className="text-gray-400 hover:text-white transition duration-300">About Me</Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Contact</a>
+                <Link href="#" className="text-gray-400 hover:text-white transition duration-300">Contact</Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">My Blog</a>
+                <Link href="/blog" className="text-gray-400 hover:text-white transition duration-300">My Blog</Link>
               </li>
             </ul>
           </div>
 
-          {/* সোশ্যাল মিডিয়া সেকশন */}
+
           <div>
             <h4 className="text-lg font-semibold mb-4">Social Media.</h4>
             <div className="flex space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-blue-500 transition duration-300" aria-label="Facebook">
+              <Link href="https://facebook.com/mst.jara.9847" className="text-gray-400 hover:text-blue-500 transition duration-300" aria-label="Facebook">
                 <FaFacebookF className="w-6 h-6" />
               </Link>
               <Link href="#" className="text-gray-400 hover:text-sky-400 transition duration-300" aria-label="Twitter">
                 <FaTwitter className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-pink-500 transition duration-300" aria-label="Instagram">
+              <Link href="https://instagram.com/md.monowar.090909" className="text-gray-400 hover:text-pink-500 transition duration-300" aria-label="Instagram">
                 <FaInstagram className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-blue-700 transition duration-300" aria-label="LinkedIn">
+              <Link href="https://www.linkedin.com/in/monowar-hossain-283b65374" className="text-gray-400 hover:text-blue-700 transition duration-300" aria-label="LinkedIn">
                 <FaLinkedinIn className="w-6 h-6" />
               </Link>
             </div>
@@ -72,10 +71,10 @@ const Footer = () => {
 
         </div>
 
-        {/* নিচের সেকশন: কপিরাইট */}
+
         <div className="mt-8 pt-8 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} আপনার কোম্পানি। সর্বস্বত্ব সংরক্ষিত।
+            &copy; {new Date().getFullYear()}
           </p>
         </div>
       </div>

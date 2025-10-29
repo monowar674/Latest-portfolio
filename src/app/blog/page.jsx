@@ -44,9 +44,7 @@ export default function BlogHomePage() {
         </div>
       </main>
 
-      <footer className="w-full py-8 border-t border-gray-700 mt-12">
-        <p className="text-center text-gray-500 text-sm">© {new Date().getFullYear()} Monowar. All rights reserved.</p>
-      </footer>
+      
       
     </div>
   ); 
