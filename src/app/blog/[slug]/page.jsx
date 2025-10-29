@@ -1,17 +1,5 @@
-// Next.js এর বিশেষ মডিউলগুলি, যা এই পরিবেশে কম্পাইল হয় না, সেগুলিকে মন্তব্য করে রাখা হলো।
-// import { notFound } from 'next/navigation';
-// import Link from 'next/link';
-// import Image from 'next/image';
 
-// এছাড়াও, বাহ্যিক ডেটা নির্ভরতা (../../../lib/posts) এবং TypeScript টাইপগুলি সরিয়ে দেওয়া হলো।
 
-// =================================================================
-// 🚨 স্ব-সম্পূর্ণভাবে চালানোর জন্য মক ডেটা এবং ফাংশনগুলো এখানেই সংজ্ঞায়িত করা হলো।
-// =================================================================
-
-/**
- * মক পোস্ট ডেটা।
- */
 const mockPosts = [
     {
         slug: 'new-ai-trends',
@@ -51,29 +39,12 @@ const mockPosts = [
     },
 ];
 
-/**
- * মক ডেটা থেকে সমস্ত পোস্ট তালিকা প্রদান করে।
- */
+
 const getAllPosts = () => mockPosts;
-// =================================================================
-
-
-// --- ১. ডেটা হ্যান্ডলিং ---
-
-/**
- * সমস্ত পোস্টের তালিকা থেকে slug অনুযায়ী নির্দিষ্ট পোস্ট খুঁজে বের করার ফাংশন।
- * @param slug - পোস্টের স্ল্যাগ (URL প্যারামিটার)।
- */
 const getPostBySlug = (slug) => {
-    // TypeScript টাইপ অপসারণ: ': Post | undefined'
     return getAllPosts().find(post => post.slug === slug);
 };
 
-// --- ২. স্ট্যাটিক প্যারামিটার জেনারেশন (Next.js এর জন্য গুরুত্বপূর্ণ) ---
-
-/**
- * Next.js কে বলে দেয় বিল্ড টাইমে কোন কোন slug এর জন্য স্ট্যাটিক পেজ তৈরি করতে হবে।
- */
 export async function generateStaticParams() {
     const posts = getAllPosts();
     return posts.map((post) => ({
@@ -81,14 +52,7 @@ export async function generateStaticParams() {
     }));
 }
 
-// --- ৩. ডাইনামিক কন্টেন্ট লোডার ফাংশন (মক ডেটা) ---
-
-/**
- * Slug এর উপর ভিত্তি করে পোস্টের কন্টেন্ট (HTML স্ট্রিং) লোড করে।
- * @param slug - পোস্টের স্ল্যাগ।
- */
 const getPostContent = (slug) => {
-    // TypeScript টাইপ অপসারণ: ': string'
     switch (slug) {
         case 'new-ai-trends':
             return `
@@ -155,34 +119,22 @@ const getPostContent = (slug) => {
         `;
 
         default:
-            return null; // কন্টেন্ট না থাকলে null রিটার্ন
+            return null;
     }
 };
 
-
-// --- ৪. পেজ কম্পোনেন্ট ---
-
-/**
- * ব্লগের একটি নির্দিষ্ট পোস্টের বিস্তারিত পেজ।
- * @param params - ডায়নামিক রুট প্যারামিটার, যার মধ্যে 'slug' থাকে।
- */
 export default function PostDetailPage({ params }) {
-    
-    // 💡 ফিক্স: যদি params বা params.slug অনুপস্থিত থাকে, তবে ডিফল্ট স্ল্যাগ ('new-ai-trends') ব্যবহার করা হলো
-    // এটি প্রিভিউ এনভায়রনমেন্টে "Cannot read properties of undefined (reading 'slug')" ত্রুটি এড়াবে।
     const slug = params?.slug || 'new-ai-trends'; 
 
-    // স্ল্যাগ অনুযায়ী পোস্ট ডেটা লোড করা
     const post = getPostBySlug(slug);
 
     if (!post) {
-        // 'notFound()' ফাংশন ব্যবহার না করে কাস্টম 404 UI দেখানো হলো
         return (
             <div className="min-h-screen pt-20 text-gray-100 bg-gray-900 flex justify-center items-center p-4">
                 <div className="bg-gray-800 p-8 rounded-xl shadow-2xl text-center ring-1 ring-red-500/30 max-w-sm w-full">
                     <h1 className="text-3xl font-bold text-red-400">পোস্ট পাওয়া যায়নি (404)</h1>
                     <p className="mt-4 text-gray-400">দুঃখিত, এই স্ল্যাগের (<code className="text-yellow-300">{slug}</code>) জন্য কোনো পোস্ট খুঁজে পাওয়া যায়নি।</p>
-                    {/* Link কম্পোনেন্ট-এর পরিবর্তে সাধারণ <a> ট্যাগ ব্যবহার করা হলো */}
+                    
                     <a href="/blog" className="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition underline">
                         ← সকল পোস্টে ফিরে যান
                     </a>
@@ -190,12 +142,9 @@ export default function PostDetailPage({ params }) {
             </div>
         );
     }
-
-    // ডাইনামিক কন্টেন্ট লোড করা
     const postContentHTML = getPostContent(slug);
 
     if (!postContentHTML) {
-        // যদি ডেটা পাওয়া যায় কিন্তু কন্টেন্ট না পাওয়া যায়
         return (
             <div className="min-h-screen pt-20 text-gray-100 bg-gray-900 flex justify-center items-center p-4">
                 <div className="bg-gray-800 p-8 rounded-xl shadow-2xl text-center ring-1 ring-yellow-500/30 max-w-sm w-full">
@@ -214,44 +163,32 @@ export default function PostDetailPage({ params }) {
         <div className="min-h-screen pt-20 text-gray-100 bg-gray-900">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-                {/* ব্লগ সূচিতে ফেরার লিঙ্ক */}
                 <div className="mb-8">
-                    {/* Link কম্পোনেন্ট-এর পরিবর্তে সাধারণ <a> ট্যাগ ব্যবহার করা হলো */}
                     <a href="/blog" className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center transition">
                         ← সকল পোস্টে ফিরে যান
                     </a>
                 </div>
 
-                {/* আর্টিকেলের মূল বডি - ডার্ক থিম স্টাইল */}
                 <article className="bg-gray-800 p-8 md:p-12 rounded-xl shadow-2xl ring-1 ring-indigo-500/30">
 
-                    {/* ফিচার ইমেজ রেন্ডারিং লজিক */}
                     {post.image && (
                         <div className="relative w-full h-80 mb-8 rounded-xl overflow-hidden ring-1 ring-gray-700">
-                            {/* Image কম্পোনেন্ট-এর পরিবর্তে সাধারণ <img> ট্যাগ ব্যবহার করা হলো */}
                             <img
                                 src={post.image}
                                 alt={post.title}
                                 className="absolute inset-0 w-full h-full object-cover" 
-                                // 'priority' অ্যাট্রিবিউটও সরানো হলো
                             />
                         </div>
                     )}
-
-                    {/* শিরোনাম */}
                     <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 leading-tight">
                         {post.title}
                     </h1>
                     
-                    {/* তারিখ */}
                     <p className="text-gray-500 text-sm mb-8 border-b border-gray-700 pb-4">
                         {new Date(post.date).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </p>
 
-                    {/* কন্টেন্ট এরিয়া */}
-                    {/* prose-invert ensures content within this div has good contrast against the dark background */}
                     <div className="prose prose-lg prose-invert max-w-none text-gray-300">
-                        {/* ডাইনামিক HTML কন্টেন্ট রেন্ডার করা হলো */}
                         <div dangerouslySetInnerHTML={{ __html: postContentHTML }} />
                     </div>
 

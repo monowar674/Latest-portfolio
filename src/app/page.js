@@ -11,9 +11,7 @@ import { Navigation } from "./navigation";
 export default function Home() {
   const wrapperRef = useRef(null);
 
-  // 🎤 Speech function - useCallback ব্যবহার করে স্থিতিশীল করা হয়েছে
   const speak = useCallback((text) => {
-    // ⚠️ Safety Check: window.speechSynthesis চেক করা হয়েছে
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       const utter = new SpeechSynthesisUtterance(text);
       utter.rate = 1;
@@ -24,7 +22,6 @@ export default function Home() {
     }
   }, []); 
 
-  // wishMe function - useCallback এবং speak dependency ব্যবহার করে স্থিতিশীল করা হয়েছে
   const wishMe = useCallback(() => {
     const hours = new Date().getHours();
     let greeting;
@@ -38,14 +35,11 @@ export default function Home() {
       greeting = "Hello Sir, Welcome to my Portfolio";
     }
     speak(greeting);
-  }, [speak]); // ✅ 'speak' কে নির্ভরতা হিসেবে যোগ করা হয়েছে
+  }, [speak]);
 
-  // Matter.js setup logic (without Matter.use calls)
   const runMatter = () => {
-    // ✅ Type/Runtime Safety Check: window.Matter এর অস্তিত্ব নিশ্চিত করা হয়েছে
     if (!wrapperRef.current || typeof window.Matter === 'undefined') return;
 
-    // Matter.js-কে local variable এ রাখা হয়েছে
     const Matter = window.Matter;
     const { Engine, Events, Runner, Render, World, Body, Common, Bodies, Mouse } = Matter;
 
@@ -62,7 +56,6 @@ export default function Home() {
     const runner = Runner.create();
     const world = engine.world;
 
-    // Attractive body
     const attractiveBody = Bodies.circle(
       render.options.width / 14,
       render.options.height / 14,
@@ -71,7 +64,6 @@ export default function Home() {
         isStatic: true,
         render: { fillStyle: "#333", strokeStyle: "#fad691", lineWidth: 0 },
         plugin: {
-          // Attractor logic is inside the plugin definition, which is fine
           attractors: [
             (bodyA, bodyB) => ({
               x: (bodyA.position.x - bodyB.position.x) * 1e-6,
@@ -83,7 +75,6 @@ export default function Home() {
     );
     World.add(world, attractiveBody);
 
-    // Random bodies
     for (let i = 0; i < 60; i++) {
       const x = Common.random(0, render.options.width);
       const y = Common.random(0, render.options.height);
@@ -122,16 +113,13 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   };
 
-  // ✅ Hooks are initialized here
   useEffect(() => {
     wishMe();
 
-    // Wait until Matter.js loads
     const checkMatter = setInterval(() => {
       if (typeof window.Matter !== 'undefined') {
         clearInterval(checkMatter);
         
-        // 🚨 Failsafe for Hook Error: Call .use() after loading is confirmed
         if (window.Matter.use) {
             window.Matter.use("matter-attractors");
             window.Matter.use("matter-wrap");
@@ -142,7 +130,7 @@ export default function Home() {
     }, 300);
 
     return () => clearInterval(checkMatter);
-  }, [wishMe]); // ✅ 'wishMe' এখন স্থিতিশীল নির্ভরতা
+  }, [wishMe]); 
 
   return (
     <>
