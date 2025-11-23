@@ -1,0 +1,19 @@
+
+body{background-color: black;}
+.nonactivate{
+    color: blue;
+}
+.swiper {
+    width: 80%;
+}
+.swiper-wrapper{
+    width: 100%;
+    margin: 0 auto;
+}
+.true{
+    opacity: 1;
+}
+.setbg{
+    background-image: url(./../Photos/bg.jpg);
+}
+
