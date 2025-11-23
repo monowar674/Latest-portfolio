@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "./navigation";
+import Script from "next/script";
+
 import { motion, useInView, useAnimation } from "framer-motion";
 import { metadata } from "./metadata"; // server metadata import
 import Footer from "@/components/mycomponents/Footer";
@@ -34,25 +36,27 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
 
-      <Script id="gtm-head" strategy="afterInteractive">
+      <Script id="meta-pixel" strategy="afterInteractive">
         {`
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id=GTM-NLCVT56M'+dl;
-  f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-NLCVT56M');
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '3691914937781792'); 
+  fbq('track', 'PageView');
 `}
       </Script>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}>
         <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NLCVT56M"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
+  <img height="1" width="1" style={{display: "none"}}
+    src="https://www.facebook.com/tr?id=3691914937781792&ev=PageView&noscript=1"
+  />
+</noscript>
         <Navigation />
 
         <div ref={ref} className="w-full h-full relative">
